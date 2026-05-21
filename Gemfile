@@ -15,6 +15,7 @@ gem "bcrypt", "~> 3.1"
 
 # Background Jobs
 gem "sidekiq", "~> 7.3"
+gem "sidekiq-cron", "~> 1.12"
 gem "redis", "~> 5.0"
 
 # Serializers

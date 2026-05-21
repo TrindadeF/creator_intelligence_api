@@ -3,3 +3,16 @@
   - [critical, 3]
   - [default, 2]
   - [low, 1]
+
+:cron:
+  collect_all_analytics:
+    cron: "0 */6 * * *"
+    class: "Analytics::CollectAllAnalyticsJob"
+    queue: low
+    description: "Collect analytics for all active TikTok accounts every 6 hours"
+
+  sync_all_accounts:
+    cron: "0 3 * * *"
+    class: "Analytics::SyncAllAccountsJob"
+    queue: low
+    description: "Daily full sync of all social accounts at 3am UTC"

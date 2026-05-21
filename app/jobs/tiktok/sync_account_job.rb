@@ -27,7 +27,13 @@ module TikTok
         Rails.logger.warn("[TikTok::SyncAccountJob] Video sync failed: #{video_result[:error]}")
       end
 
-      # 3. Generate insights after sync
+      # 3. Collect analytics for all videos
+      analytics_result = TikTok::AnalyticsIngestionService.new(social_account: account).call
+      unless analytics_result[:success]
+        Rails.logger.warn("[TikTok::SyncAccountJob] Analytics ingestion failed: #{analytics_result[:error]}")
+      end
+
+      # 4. Generate insights after sync + analytics collection
       Insights::GenerateInsightsJob.perform_later(account.user_id)
 
       Rails.logger.info("[TikTok::SyncAccountJob] Completed for account #{account.id}. Videos synced: #{video_result[:synced_count]}")

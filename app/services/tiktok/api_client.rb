@@ -15,6 +15,19 @@ module TikTok
       like_count comment_count share_count view_count
     ].join(",").freeze
 
+    # Extended fields for analytics collection (requires video.list scope)
+    VIDEO_ANALYTICS_FIELDS = %w[
+      id
+      view_count
+      like_count
+      comment_count
+      share_count
+      average_time_watched
+      total_time_watched
+      reach
+      full_video_watched_rate
+    ].join(",").freeze
+
     def initialize(access_token: nil)
       @access_token = access_token
     end
@@ -91,6 +104,16 @@ module TikTok
       authenticated_connection.post("/v2/video/query/") do |req|
         req.headers["Content-Type"] = "application/json"
         req.params["fields"] = VIDEO_LIST_FIELDS
+        req.body = { filters: { video_ids: Array(video_ids) } }.to_json
+      end
+    end
+
+    # Fetches analytics-focused stats for specific video IDs.
+    # Uses extended fields (watch time, reach, completion rate).
+    def fetch_video_stats(video_ids:)
+      authenticated_connection.post("/v2/video/query/") do |req|
+        req.headers["Content-Type"] = "application/json"
+        req.params["fields"] = VIDEO_ANALYTICS_FIELDS
         req.body = { filters: { video_ids: Array(video_ids) } }.to_json
       end
     end
