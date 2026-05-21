@@ -17,6 +17,7 @@ gem "bcrypt", "~> 3.1"
 gem "sidekiq", "~> 7.3"
 gem "sidekiq-cron", "~> 1.12"
 gem "redis", "~> 5.0"
+gem "connection_pool", "~> 2.4" # pin to 2.x — sidekiq-7.3 scheduler incompatible with 3.x
 
 # Serializers
 gem "blueprinter", "~> 1.0"

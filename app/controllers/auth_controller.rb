@@ -1,5 +1,6 @@
 class AuthController < ApplicationController
   skip_before_action :authenticate_request!, only: [:register, :login, :refresh, :forgot_password, :reset_password]
+  wrap_parameters false # prevent Rails from auto-wrapping params under :auth key
 
   def register
     result = Auth::RegisterService.new(register_params).call
