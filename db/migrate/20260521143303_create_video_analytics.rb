@@ -21,7 +21,7 @@ class CreateVideoAnalytics < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :video_analytics, :video_id
+    # video_id index is created automatically by t.references
     add_index :video_analytics, :collected_at
     add_index :video_analytics, [:video_id, :collected_at]
     add_index :video_analytics, :views

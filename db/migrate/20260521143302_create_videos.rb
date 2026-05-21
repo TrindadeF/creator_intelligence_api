@@ -18,7 +18,7 @@ class CreateVideos < ActiveRecord::Migration[8.0]
     end
 
     add_index :videos, [:social_account_id, :external_video_id], unique: true
-    add_index :videos, :user_id
+    # user_id index is created automatically by t.references
     add_index :videos, :published_at
     add_index :videos, :status
     add_index :videos, :external_video_id

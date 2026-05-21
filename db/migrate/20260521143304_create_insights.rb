@@ -17,8 +17,7 @@ class CreateInsights < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :insights, :user_id
-    add_index :insights, :video_id
+    # user_id and video_id indexes are created automatically by t.references
     add_index :insights, :insight_type
     add_index :insights, :severity
     add_index :insights, :read

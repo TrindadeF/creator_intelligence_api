@@ -8,8 +8,7 @@ module Auth
       user = User.new(user_params)
 
       if user.save
-        # TODO: Send confirmation email via job
-        # Mailers::SendConfirmationEmailJob.perform_later(user.id)
+        Mailers::SendConfirmationEmailJob.perform_later(user.id)
 
         token = JwtService.encode({ user_id: user.id })
         refresh_token = user.generate_refresh_token!

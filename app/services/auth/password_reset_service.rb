@@ -9,7 +9,7 @@ module Auth
       return { success: true } unless user
 
       user.generate_password_reset_token!
-      # TODO: Mailers::SendPasswordResetJob.perform_later(user.id)
+      Mailers::SendPasswordResetJob.perform_later(user.id)
 
       { success: true }
     end
