@@ -21,6 +21,16 @@ class ApplicationController < ActionController::API
     end
   end
 
+  # Soft auth — sets current_user if token present, but doesn't block on failure.
+  # Use in actions that may be called without JWT (e.g., OAuth callbacks via redirect).
+  def authenticate_request_optional!
+    token = extract_token
+    return if token.blank?
+
+    result = Auth::JwtService.decode(token)
+    @current_user = User.find_by(id: result[:payload]["user_id"]) if result[:success]
+  end
+
   def current_user
     @current_user
   end

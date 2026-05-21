@@ -8,6 +8,14 @@ Rails.application.routes.draw do
     post "logout",          to: "auth#logout"
     post "forgot_password", to: "auth#forgot_password"
     post "reset_password",  to: "auth#reset_password"
+
+    # TikTok OAuth
+    scope :tiktok do
+      get    "connect",    to: "tiktok/oauth#connect"       # Step 1: returns auth URL (JWT required)
+      get    "callback",   to: "tiktok/oauth#callback"      # Step 2: TikTok redirect (no JWT, state-based)
+      post   "callback",   to: "tiktok/oauth#callback_json" # Alt: frontend posts code+state (JWT required)
+      delete "disconnect", to: "tiktok/oauth#disconnect"    # Revoke & disconnect
+    end
   end
 
   get  "me", to: "users#me"

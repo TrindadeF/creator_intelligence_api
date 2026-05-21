@@ -8,13 +8,12 @@ module Analytics
 
       Rails.logger.info("[SyncSocialAccountJob] Syncing #{social_account.provider} for user #{social_account.user_id}")
 
-      # TODO: Implement provider-specific sync
-      # case social_account.provider
-      # when "tiktok"
-      #   TikTok::SyncAccountService.new(social_account).call
-      # when "youtube"
-      #   Youtube::SyncAccountService.new(social_account).call
-      # end
+      case social_account.provider
+      when "tiktok"
+        TikTok::SyncAccountJob.perform_later(social_account.id)
+      else
+        Rails.logger.info("[SyncSocialAccountJob] No sync implementation yet for #{social_account.provider}")
+      end
     end
   end
 end
